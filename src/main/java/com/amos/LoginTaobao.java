@@ -230,12 +230,10 @@ public class LoginTaobao {
                 Tools.saveToLocal(httpClient.execute(itemGet).getEntity(), "taobao.item." + i + ".html");
 
                 itemdoc = Jsoup.parse(EntityUtils.toString(httpClient.execute(itemGet).getEntity()));
-
                 for (Element element : itemdoc.select("a:containsOwn(订单详情)")) {
                     String detailUrl = element.attr("href");
                     itemDetailList.add(detailUrl);
                 }
-
             }
 
         }
