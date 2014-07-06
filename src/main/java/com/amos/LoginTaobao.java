@@ -62,16 +62,6 @@ public class LoginTaobao {
         String loginHTML = EntityUtils.toString(httpClient.execute(httpGet).getEntity());
         System.out.println("loginHTML:" + loginHTML);
 
-
-//        String TPL_username = "lyywxc";
-//        String TPL_password = "liyayun007745";
-
-//        String TPL_username = "ilovenkbbs";
-//        String TPL_password = "Info2013";
-
-//        String TPL_username = "13918915255";
-//        String TPL_password = "Data54743281";
-
         String TPL_username = "淘宝账号";//现在联系我吧
         String TPL_password = "淘宝密码";
 
