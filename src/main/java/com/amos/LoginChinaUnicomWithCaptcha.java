@@ -1,6 +1,7 @@
 package com.amos;
 
 
+import com.amos.tool.Tools;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
@@ -18,7 +19,7 @@ import java.io.InputStreamReader;
 /**
  * Created by amosli on 14-6-22.
  */
-public class LoginWithCaptcha {
+public class LoginChinaUnicomWithCaptcha {
 
     public static void main(String args[]) throws Exception {
 
@@ -42,7 +43,7 @@ public class LoginWithCaptcha {
 
         if (capthcaResponse.getStatusLine().getStatusCode() == 200) {
             //将验证码写入本地
-            LoginChinaUnicom.saveToLocal(capthcaResponse.getEntity(), "chinaunicom.capthca." + System.currentTimeMillis());
+            Tools.saveToLocal(capthcaResponse.getEntity(), "chinaunicom.capthca." + System.currentTimeMillis());
         }
 
 
@@ -82,10 +83,10 @@ public class LoginWithCaptcha {
         System.out.print("loginResponse:" + EntityUtils.toString(loginResponse.getEntity()));
 
         //抓取基本信息数据
+        //jsonp1404663560635({resultCode:"7072",redirectURL:"http://www.10010.com",errDesc:"null",msg:'系统忙，请稍后再试。',needvode:"1"});
         HttpPost basicHttpGet = new HttpPost("http://iservice.10010.com/ehallService/static/acctBalance/execute/YH102010005/QUERY_AcctBalance.processData/Result");
-        LoginChinaUnicom.saveToLocal(httpclient.execute(basicHttpGet).getEntity(), "chinaunicom.basic.html");
+        Tools.saveToLocal(httpclient.execute(basicHttpGet).getEntity(), "chinaunicom.basic.html");
 
     }
-
 
 }

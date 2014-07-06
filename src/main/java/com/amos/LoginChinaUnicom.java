@@ -1,5 +1,6 @@
 package com.amos;
 
+import com.amos.tool.Tools;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,6 +29,7 @@ public class LoginChinaUnicom {
         String name =  "中国联通手机号码";
         String pwd = "手机服务密码";
 
+        //https://uac.10010.com/portal/Service/MallLogin?callback=jQuery17208151653951499611_1404661522215&redirectURL=http%3A%2F%2Fwww.10010.com&userName=13167081006&password=0077450&pwdType=01&productType=01&redirectType=01&rememberMe=1&_=1404661572740
         String url = "https://uac.10010.com/portal/Service/MallLogin?callback=jQuery17202691898950318097_1403425938090&redirectURL=http%3A%2F%2Fwww.10010.com&userName=" + name + "&password=" + pwd + "&pwdType=01&productType=01&redirectType=01&rememberMe=1";
 
         HttpClient httpClient = new DefaultHttpClient();
@@ -41,6 +43,8 @@ public class LoginChinaUnicom {
             HttpEntity loginEntity = loginResponse.getEntity();
             String loginEntityContent = EntityUtils.toString(loginEntity);
             System.out.println("登录状态:" + loginEntityContent);
+
+            //jQuery17208151653951499611_1404661522215({resultCode:"7007",redirectURL:"http://www.10010.com",errDesc:"null",msg:'用户名或密码不正确。<a href="https://uac.10010.com/cust/resetpwd/inputName" target="_blank" style="color: #36c;cursor: pointer;text-decoration:underline;">忘记密码？</a>',needvode:"1"});
             //如果登录成功
             if (loginEntityContent.contains("resultCode:\"0000\"")) {
 
@@ -48,12 +52,13 @@ public class LoginChinaUnicom {
                 String months[] = new String[]{"201401", "201402", "201403", "201404", "201405"};
 
                 for (String month : months) {
+                    //http://iservice.10010.com/ehallService/static/historyBiil/execute/YH102010002/QUERY_YH102010002.processData/QueryYH102010002_Data/201405/undefined?_=1404661790076&menuid=000100020001
                     String billurl = "http://iservice.10010.com/ehallService/static/historyBiil/execute/YH102010002/QUERY_YH102010002.processData/QueryYH102010002_Data/" + month + "/undefined";
 
                     HttpPost httpPost = new HttpPost(billurl);
                     HttpResponse billresponse = httpClient.execute(httpPost);
                     if (billresponse.getStatusLine().getStatusCode() == 200) {
-                        saveToLocal(billresponse.getEntity(), "chinaunicom.bill." + month + ".2.html");
+                        Tools.saveToLocal(billresponse.getEntity(), "chinaunicom.bill." + month + ".2.html");
                     }
                 }
 
@@ -63,40 +68,7 @@ public class LoginChinaUnicom {
     }
 
 
-    /**
-     * 写文件到本地
-     *
-     * @param httpEntity
-     * @param filename
-     */
-    public static void saveToLocal(HttpEntity httpEntity, String filename) {
 
-        try {
-
-            File dir = new File("/home/amosli/workspace/chinaunicom/");
-            if (!dir.isDirectory()) {
-                dir.mkdir();
-            }
-
-            File file = new File(dir.getAbsolutePath() + "/" + filename);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            InputStream inputStream = httpEntity.getContent();
-
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            byte[] bytes = new byte[1024];
-            int length = 0;
-            while ((length = inputStream.read(bytes)) > 0) {
-                fileOutputStream.write(bytes, 0, length);
-            }
-            inputStream.close();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
 }
