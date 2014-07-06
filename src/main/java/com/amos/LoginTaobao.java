@@ -38,6 +38,8 @@ public class LoginTaobao {
 
     public static void main(String args[]) throws Exception {
 
+        String TPL_username = "淘宝账号";
+        String TPL_password = "淘宝密码";
 
         long StartTime=System.currentTimeMillis();
         System.out.println("StartTime:"+StartTime);
@@ -48,24 +50,9 @@ public class LoginTaobao {
 
         HttpGet httpGet = new HttpGet(loginUrl);
 
-//        for (Header header : taobaoLoginResponse.getAllHeaders()) {
-//            System.out.println("header:" + header);
-//        }
-
-        //get cookies
-//        AbstractHttpClient abstractHttpClient = (AbstractHttpClient) httpClient;
-//        CookieStore cookieStore = abstractHttpClient.getCookieStore();
-//        for (Cookie cookie : cookieStore.getCookies()) {
-//            System.out.println("cookie:" + cookie);
-//        }
-
         String loginHTML = EntityUtils.toString(httpClient.execute(httpGet).getEntity());
         System.out.println("loginHTML:" + loginHTML);
 
-        String TPL_username = "淘宝账号";//现在联系我吧
-        String TPL_password = "淘宝密码";
-
-//        TPL_username=URLEncoder.encode(TPL_username,"UTF-8");
 
         String loginType = httpParser.getValueFromInputByName(loginHTML, "loginType");
         String TPL_checkcode = httpParser.getValueFromInputByName(loginHTML, "TPL_checkcode");
