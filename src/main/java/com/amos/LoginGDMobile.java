@@ -1,6 +1,16 @@
 package com.amos;
 
-import com.amos.tool.Tools;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -9,29 +19,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DecompressingHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.DefaultedHttpParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.CookieStore;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.amos.tool.Tools;
 
 /**
  * Created by amosli on 14-6-25.
@@ -55,7 +48,7 @@ public class LoginGDMobile {
         cookie_loginType.setPath("/ucs/login");
         cookieStore.addCookie(cookie_loginType);
 
-        HttpClient httpClient = Tools.createSSLClientDefault(cookieStore);
+        HttpClient httpClient = Tools.createSSLClientDefault();
 
 
 

@@ -26,8 +26,8 @@ public class LoginChinaUnicom {
      */
     public static void main(String[] args) throws Exception {
 
-        String name =  "中国联通手机号码";
-        String pwd = "手机服务密码";
+        String name =  "13167081006";
+        String pwd = "007745";
 
         //https://uac.10010.com/portal/Service/MallLogin?callback=jQuery17208151653951499611_1404661522215&redirectURL=http%3A%2F%2Fwww.10010.com&userName=13167081006&password=0077450&pwdType=01&productType=01&redirectType=01&rememberMe=1&_=1404661572740
         String url = "https://uac.10010.com/portal/Service/MallLogin?callback=jQuery17202691898950318097_1403425938090&redirectURL=http%3A%2F%2Fwww.10010.com&userName=" + name + "&password=" + pwd + "&pwdType=01&productType=01&redirectType=01&rememberMe=1";

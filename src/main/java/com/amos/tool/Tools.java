@@ -1,14 +1,5 @@
 package com.amos.tool;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.CookieStore;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContextBuilder;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-
-import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -17,6 +8,15 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+
+import javax.net.ssl.SSLContext;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 /**
  * Created by amosli on 14-6-25.
@@ -34,7 +34,7 @@ public class Tools {
 
         try {
 
-            File dir = new File("/home/amosli/workspace/crawl/");
+            File dir = new File("D:/workspace/HTMLS");
             if (!dir.isDirectory()) {
                 dir.mkdir();
             }
@@ -64,7 +64,7 @@ public class Tools {
      * @param cookieStore
      * @return
      */
-    public static CloseableHttpClient createSSLClientDefault(CookieStore cookieStore) {
+    public static CloseableHttpClient createSSLClientDefault() {
         try {
             SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
                 //信任所有
@@ -74,7 +74,7 @@ public class Tools {
             }).build();
 
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
-            return HttpClients.custom().setDefaultCookieStore(cookieStore).setSSLSocketFactory(sslsf).build();
+            return HttpClients.custom().setSSLSocketFactory(sslsf).build();
 
         } catch (KeyManagementException e) {
             e.printStackTrace();
