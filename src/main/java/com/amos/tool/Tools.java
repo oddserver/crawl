@@ -15,6 +15,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpClientConnectionManager;
@@ -117,9 +118,11 @@ public class Tools {
                 }
             };
 
+
+
             return HttpClients.custom().setSSLSocketFactory(sslsf)
-                    .setUserAgent("Mozilla/5.0")
-                    .setMaxConnPerRoute(5).setMaxConnPerRoute(256)
+                    .setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36")
+                    .setMaxConnPerRoute(25).setMaxConnPerRoute(256)
                     .setRetryHandler(retryHandler).build();
 
         } catch (KeyManagementException e) {
