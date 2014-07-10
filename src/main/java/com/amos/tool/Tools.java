@@ -1,8 +1,7 @@
 package com.amos.tool;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -10,13 +9,22 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.HttpRequest;
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.protocol.HttpContext;
 
 /**
  * Created by amosli on 14-6-25.
@@ -34,7 +42,7 @@ public class Tools {
 
         try {
 
-            File dir = new File("D:/workspace/HTMLS");
+            File dir = new File(Configuration.FILEDIR);
             if (!dir.isDirectory()) {
                 dir.mkdir();
             }
@@ -60,8 +68,7 @@ public class Tools {
     }
 
     /**
-     * 使用ssl通道
-     * @param cookieStore
+     * 使用ssl通道并设置请求重试处理
      * @return
      */
     public static CloseableHttpClient createSSLClientDefault() {
@@ -74,7 +81,46 @@ public class Tools {
             }).build();
 
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
-            return HttpClients.custom().setSSLSocketFactory(sslsf).build();
+
+            //设置请求重试处理,重试机制,这里如果请求失败会重试5次
+            HttpRequestRetryHandler retryHandler = new HttpRequestRetryHandler() {
+                @Override
+                public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
+                    if (executionCount >= 5) {
+                        // Do not retry if over max retry count
+                        return false;
+                    }
+                    if (exception instanceof InterruptedIOException) {
+                        // Timeout
+                        return false;
+                    }
+                    if (exception instanceof UnknownHostException) {
+                        // Unknown host
+                        return false;
+                    }
+                    if (exception instanceof ConnectTimeoutException) {
+                        // Connection refused
+                        return false;
+                    }
+                    if (exception instanceof SSLException) {
+                        // SSL handshake exception
+                        return false;
+                    }
+                    HttpClientContext clientContext = HttpClientContext.adapt(context);
+                    HttpRequest request = clientContext.getRequest();
+                    boolean idempotent = !(request instanceof HttpEntityEnclosingRequest);
+                    if (idempotent) {
+                        // Retry if the request is considered idempotent
+                        return true;
+                    }
+                    return false;
+                }
+            };
+
+            return HttpClients.custom().setSSLSocketFactory(sslsf)
+                    .setUserAgent("Mozilla/5.0")
+                    .setMaxConnPerRoute(5).setMaxConnPerRoute(256)
+                    .setRetryHandler(retryHandler).build();
 
         } catch (KeyManagementException e) {
             e.printStackTrace();
