@@ -107,6 +107,7 @@ public class DownLoadFile {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+        httpClient.getParams().setParameter("","");
 
         //2.HttpGet对象并设置参数
         HttpGet httpGet = new HttpGet(url);

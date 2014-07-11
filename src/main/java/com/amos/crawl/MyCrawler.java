@@ -59,13 +59,14 @@ public class MyCrawler {
         while (!LinkQueue.isUnvisitedUrlsEmpty() && LinkQueue.getVisitedUrlNum() <= 100) {
             //附头URL出队列
             String visitURL = (String) LinkQueue.unVisitedUrlDeQueue();
+            System.out.println("visitURL:"+(k++)+"__________"+visitURL);
             DownLoadFile downloader = new DownLoadFile();
             //下载网页
             downloader.downloadFile(visitURL);
             //该URL放入怩访问的URL中
             LinkQueue.addVisitedUrl(visitURL);
 
-            System.out.println("visitURL:"+(k++)+visitURL);
+
         }
 
     }
