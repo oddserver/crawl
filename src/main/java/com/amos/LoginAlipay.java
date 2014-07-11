@@ -43,12 +43,14 @@ public class LoginAlipay {
         //https://omeo.alipay.com/service/checkcode?sessionID=9895f0a1a59e64a740e2400b413b64b2&t=0.499997429512822
         String imageUrl = doc.select("#J-checkcode-img").attr("src");
         imageUrl=imageUrl.substring(0,imageUrl.lastIndexOf("&"));
-        HttpGet imageGet = new HttpGet(imageUrl);
-        Tools.saveToLocal(httpClient.execute(imageGet).getEntity(),"alipay.image.png");
-        String imageCode = JOptionPane.showInputDialog("请输入短信验证码:");
+
         //2).图片验证码的链接
         String verifyResult="";
+        String imageCode="";
         do{
+            HttpGet imageGet = new HttpGet(imageUrl);
+            Tools.saveToLocal(httpClient.execute(imageGet).getEntity(),"alipay.image.png");
+            imageCode = JOptionPane.showInputDialog("请输入短信验证码:");
             String verifyImageUrl = "https://auth.alipay.com/login/verifyCheckCode.json?checkCode="+imageCode;
             HttpGet verifyGet = new HttpGet(verifyImageUrl);
             verifyResult = EntityUtils.toString(httpClient.execute(verifyGet).getEntity());
