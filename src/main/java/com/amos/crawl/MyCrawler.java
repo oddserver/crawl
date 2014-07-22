@@ -30,8 +30,13 @@ public class MyCrawler {
         };
         //初始化URL队列
         initCrawlerWithSeeds(seeds);
-        //循环条件:待抓取的链接不且抓取的网页不多100
+
+        int count=0;
+        //循环条件:待抓取的链接不为空抓取的网页最多100条
         while (!LinkQueue.isUnvisitedUrlsEmpty() && LinkQueue.getVisitedUrlNum() <= 100) {
+
+            System.out.println("count:"+(++count));
+
             //附头URL出队列
             String visitURL = (String) LinkQueue.unVisitedUrlDeQueue();
             DownLoadFile downloader = new DownLoadFile();
@@ -44,6 +49,7 @@ public class MyCrawler {
 
             //新的未访问的URL入列
             for (String link : links) {
+                System.out.println("link:"+link);
                 LinkQueue.addUnvisitedUrl(link);
             }
         }
@@ -51,25 +57,9 @@ public class MyCrawler {
     }
 
     public static void main(String args[]) {
+        //程序入口
         MyCrawler myCrawler = new MyCrawler();
         myCrawler.crawling(new String[]{"http://news.fudan.edu.cn/news/"});
-
-        int k=0;
-        //循环条件:待抓取的链接不且抓取的网页不多100
-        while (!LinkQueue.isUnvisitedUrlsEmpty() && LinkQueue.getVisitedUrlNum() <= 100) {
-            //附头URL出队列
-            String visitURL = (String) LinkQueue.unVisitedUrlDeQueue();
-            System.out.println("visitURL:"+(k++)+"__________"+visitURL);
-            DownLoadFile downloader = new DownLoadFile();
-            //下载网页
-            downloader.downloadFile(visitURL);
-            //该URL放入怩访问的URL中
-            LinkQueue.addVisitedUrl(visitURL);
-
-
-        }
-
     }
-
 
 }

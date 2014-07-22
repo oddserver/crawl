@@ -39,25 +39,26 @@ public class DownLoadFile {
         return url;
     }
 
-//    /**
-//     * 将网页写入到本地
-//     * @param data
-//     * @param filePath
-//     */
-//    private void saveToLocal(byte[] data, String filePath) {
-//
-//        try {
-//            DataOutputStream out = new DataOutputStream(new FileOutputStream(new File(filePath)));
-//            for(int i=0;i<data.length;i++){
-//                out.write(data[i]);
-//            }
-//            out.flush();
-//            out.close();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    /**
+     * 将网页写入到本地
+     * @param data
+     * @param filePath
+     */
+    private void saveToLocal(byte[] data, String filePath) {
+
+        try {
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(new File(filePath)));
+            for(int i=0;i<data.length;i++){
+                out.write(data[i]);
+            }
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 写文件到本地
      *
@@ -101,13 +102,6 @@ public class DownLoadFile {
 
         //1.生成HttpClient对象并设置参数
         HttpClient httpClient = Tools.createSSLClientDefault();
-        //设置http连接超时6s
-//        try {
-//            httpClient.getConnectionManager().wait(6000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        httpClient.getParams().setParameter("","");
 
         //2.HttpGet对象并设置参数
         HttpGet httpGet = new HttpGet(url);
