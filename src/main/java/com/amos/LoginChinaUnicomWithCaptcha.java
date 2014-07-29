@@ -24,8 +24,8 @@ public class LoginChinaUnicomWithCaptcha {
 
     public static void main(String args[]) throws Exception {
 
-        String name =  "13167081006";
-        String pwd = "007745";
+        String name = "中国联通";
+        String pwd = "密码";
 
         //生成验证码的链接
         String createCaptchaUrl = "http://uac.10010.com/portal/Service/CreateImage";
@@ -79,14 +79,11 @@ public class LoginChinaUnicomWithCaptcha {
             }
         } while (!EntityUtils.toString(verifyResponse.getEntity()).contains("true"));
 
-//        https://uac.10010.com/portal/Service/MallLogin?callback=jsonp1404716227600&userName=13167081002&password=001122&pwdType=01&productType=01&verifyCode=xhx3&redirectType=03&areaCode=&arrcity=%E5%9C%B0%E5%8C%BA&uvc=3zm50fcae32b5fa8cb5795d5b335cd85d2cv4c
-
-
         //登录
         String loginurl = "https://uac.10010.com/portal/Service/MallLogin?userName=" + name + "&password=" + pwd + "&pwdType=01&productType=01&verifyCode=" + capthca + "&redirectType=03&uvc=" + uvc;
         HttpGet loginGet = new HttpGet(loginurl);
         CloseableHttpResponse loginResponse = httpclient.execute(loginGet);
-        System.out.print("loginResponse:" + EntityUtils.toString(loginResponse.getEntity()));
+        System.out.print("result:" + EntityUtils.toString(loginResponse.getEntity()));
 
         //抓取基本信息数据
         //jsonp1404663560635({resultCode:"7072",redirectURL:"http://www.10010.com",errDesc:"null",msg:'系统忙，请稍后再试。',needvode:"1"});
