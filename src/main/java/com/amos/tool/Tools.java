@@ -135,6 +135,7 @@ public class Tools {
                 }
             }).build();
 
+            //自定义的https请求
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
 
             //设置请求重试处理,重试机制,这里如果请求失败会重试5次

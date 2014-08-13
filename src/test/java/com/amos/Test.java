@@ -1,5 +1,7 @@
 package com.amos;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 
 /**
@@ -9,24 +11,37 @@ public class Test {
 
     public static void main(String args[]) {
 
-        //拼接一段string 常用的方法
-        String name="amosli";
-        //方法1:
-        String result = "hello,"+name;
-        System.out.println(result);//hello,amosli
+//        //拼接一段string 常用的方法
+//        String name="amosli";
+//        //方法1:
+//        String result = "hello,"+name;
+//        System.out.println(result);//hello,amosli
+//
+//        //方法2:
+//        result = "hello,".concat(name);
+//        System.out.println(result);//hello,amosli
+//
+//
+//        //方法3:
+//        result = String.format("%d%s", 200, "元");
+//        System.out.println(result);//200元
+//
+//        //方法4:
+//        result = MessageFormat.format("hi,{0},I am {1}", "Jack", "Amosli");
+//        System.out.println(result);//hi,Jack,I am Amosli
 
-        //方法2:
-        result = "hello,".concat(name);
-        System.out.println(result);//hello,amosli
 
+        //
 
-        //方法3:
-        result = String.format("%d%s", 200, "元");
-        System.out.println(result);//200元
+//        name="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\\ncRLkhsgulQ==^@^0.0.1";
+//        name= name.replaceAll("\\\\n","HHHH");
+        try {
+            System.out.println(URLEncoder.encode("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^@^0.0.1","UTF-8"));//hi,Jack,I am Amosli
 
-        //方法4:
-        result = MessageFormat.format("hi,{0},I am {1}", "Jack", "Amosli");
-        System.out.println(result);//hi,Jack,I am Amosli
+            //FYlSiTsg5fqfr%2BwYGrqIRld1TFrxqVZG2Tk04fMFJJPvGafhy7tlRuRUnVqakSpkd7OLifKt7OOZ%0D%0AxN0mv5ywHlg84ClEuATAVr4clSPTODqjNrAOk4F%2FUhdU7beB9G%2FaCPnO5anxinfv5Cu%2F1jgky3H1%0D%0ArD6nYoiUrHwSEdJku56kFoEMrD50WZPiCcX0PUbPPF23ottCCNznmu%2BVLNHVDTwW0YkfwhmASEFV%0D%0AmfGCkySHWj3pmvRWaqMLmbKDeMymWJxjThWl%2FnY%2FaJR5KnoYzwL4MinkT8X814IFHEkbS2bYEE1n%0D%0AleBODrv3kKewHvkn6RjFhyCg97artxYaEnkB4jYFBqhuBBDm2xft6vqBDH9XMd%2FvBTmsp1kR%2B1Fj%0D%0AkDzPsdw7Z%2FUDA1XYwi2YL%2FFYwkfIrNUMd8N21Nj0hFUncLGyhAuhzUA5%2FTW98Tj5p%2Bk1K6x9kMZ%2F%0D%0AR81Rl9mOJHUvjlsAHpERzgC9UjOxt24YocUPZuCwGFjAAJdgfpncbRePC8fDUNJUJ%2B46elXaSchC%0D%0A4An1vJ0npSSr7DjPzbrTiYQY1RrVGjD5bf8VJ5httIbz7DKkQLYURN1HL0VCqgqk51%2B%2FZ0lLqj5x%0D%0AxG91%2BsF9dOQUYnJQ0kP%2FR0FrgxcKvsjK2yUwWCEzcO%2FLby86k%2BlKsmUoSZ0vS772e8oxVNQo%2BGJL%0D%0Ax4NkhEf6GDakGI9Nb3nirLi6pFWAg%2BNtSizNPF14J9aZwBAlSBUxblhmXg6ilXOZ3Dm00tTW9i19%0D%0A3xg%2FHbgUwEdW%2BJHwlnlK9kX9nn85r4G%2BlrTW0N4QCl5T6hxj0IbE2zRCneuUOQ2Y876%2FJQsYe11j%0D%0A21YMXREPkX0hZP9MHOS0QQ%2Bzn7qo566lQkhC0hE78Qp2i5%2BTAve%2FySuryEqN4nnxIc1JNmnjbLfF%0D%0AmrMt26%2FYRtgGNNvJ%2B9tMKHJ5C1%2FLvW6WKvZarN46WHSiqRxqzpT0pPmjA75gNBaImdOM2mqqARGB%0D%0Atu7pxGMJk4jG7QECodekjWbvxAFJamrZzS7sTGES3fjF%2F19aFZDKGVGcfN4G5EH1qLKEFGjuEM8A%0D%0AJkCpC5x%2BnyfTCJrZw5c2IT0D176g92jKIwnadoiQd8Cpt6ifgBLJzm6BKkfwFE31NZbuBYHKnxJx%0D%0ArGhTVpXXyzWAuB7%2FYAVBaKED%2BRegRw9limoWxzfcwxI6FKjKdoPRArUgtO0ynAnxklIriXlCii0K%0D%0AiQreNqCBRcW8QObotg1f1iFcQkcSw5EPvK7TdBnUpsmDnIN6xtLghk7ev4tuWlVK3%2BZJt7gJAJ6F%0D%0A%2FyIPiyfPwh1taeMHGdx3uh%2Fxrg77vA2Z4Dq7hbIPR%2F%2BdzvF5DLNw84ZOp10KVahvrx4Up9gII5Nc%0D%0ASZk1wApjFmkaGto0V9oxoneCt33yXonU8P7axPPzpn%2FaMQ8OY9%2BfPhGZUnhVu6iSXaAM1ES6iZDT%0D%0A6gOxDCz4Z7Lcypbt6UZ6NlUFk9j18yoBAKhBgQfPBdoJqJV0%2F36fFt8OtHz4OHLzVFFqBppUVRED%0D%0APz3TVHsItn2O51P8XF0Ff5D39%2FYrXYrPlSW8rfWIgsJSQMCQ1Wjb0qaOOPvZtglXzRRq39b3BKLO%0D%0Arvqg3RfChaTK0PZLbi%2Fxr8ONzgc09jzSbtwzDL%2F5F%2BzyywfQlOTYf%2Frtn1161tJaGNyzQUrTCJav%0D%0Ai7QV8PHfAd9jr2n2ia8ZoqBEU98KypWg7D8bCjSFmgsrTkV4Qe16mMB8ukg1CbPnH25zBLyXcz4T%0D%0ACcUUOVYBDLiW3I7ytBc1BbwLIv7UQz%2Bhsm0dCAkDDAwS6dVNpyjbU7VMmpHLYls%2FO%2F%2FlPconoXCE%0D%0AMeIAo9XxHZvLZbDvizODIDReri4OjNrdurHH1ZOQ9JmUZAq6uClFmhHDHsU5kN2PGwXShoMKxowV%0D%0AP8oFcYerLftwmX0%2FLBA0zRIGrvTCp8KLucjlTkolAaI418OBOkhT0H4riLnnanWl6RuE20GukYAb%0D%0A8zPdJXMjBchMkYiSJR3a3zGJjbSQ2mqQMcs75IkJO1NffoIJjpfMhx%2FAFpyxeaXj39KPLL2pVvld%0D%0AlIHxkp%2BF2C%2F6MV%2Bjg8dfXHZAqDRSsWdFpfxkJWCO0MR2gp2%2FffgE0tmhZV%2Bw0u089%2BcNIIR0JlXP%0D%0Aq895yG6gF8gXQgWExxxoXQqRMQWawwaEkTKcAJeLZ2GieCMQEqBM%2F%2BvDa734VAr68ayV%2FLgJ1Iq0%0D%0A%2BGIHpWbiQZ%2BOTkwniqd181pchM59p5k%2Fqaf0SKr6bbLeJcQfq3jpRNhOz49ncmkxBZnm%2FWyliVUU%0D%0A%2FAS7%2BvG9Ly16gx%2BjSiTeZSF5hQTr6gC0xHNZVvdhpTPOlc%2FI7%2BLa%2FAoqWFX6q6bY8aRnMOpYG5y9%0D%0AGpqLO6NjCW23joHlON114wfFuRdlPu%2Foj0Irzclm%2FjnZWuviysi%2Bjw53Qko5FTYZ7wFypqgseoCI%0D%0A6vNiFGK4kw%2B6dDqrHnRf52eVtUtj%2FA9z3%2BEB5DdXp9QMYNuP%2Fgh4TUSm6naq9MetWRzr4MLWMrq2%0D%0AMIjny7g71g%3D%3D%5E%40%5E0.0.1
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 
     }
