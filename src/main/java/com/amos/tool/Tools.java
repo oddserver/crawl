@@ -177,6 +177,7 @@ public class Tools {
             RequestConfig requestConfig = RequestConfig.custom()
                     .setConnectionRequestTimeout(20000).setConnectTimeout(20000)
                     .setCircularRedirectsAllowed(false)
+                    .setRedirectsEnabled(false)
                     .build();
 
             Cookie cookie ;
